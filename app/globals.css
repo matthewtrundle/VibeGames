@@ -1,0 +1,392 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   SPOOKY THEME CUSTOM PROPERTIES
+   ============================================ */
+@layer base {
+  :root {
+    /* Primary Colors */
+    --graveyard-black: #0a0a0a;
+    --midnight-black: #121212;
+    --shadow-gray: #1a1a1a;
+    --ghost-gray: #2a2a2a;
+
+    /* Accent Colors */
+    --pumpkin-orange: #ff7518;
+    --dark-orange: #e65f00;
+    --mystic-purple: #8b5cf6;
+    --deep-purple: #6b21a8;
+
+    /* Text Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --text-tertiary: #71717a;
+    --text-accent: #fbbf24;
+
+    /* Glow Effects */
+    --shadow-orange-glow: 0 0 20px rgba(255, 117, 24, 0.3);
+    --shadow-purple-glow: 0 0 20px rgba(139, 92, 246, 0.3);
+    --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
+                   0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-modal: 0 20px 25px -5px rgba(0, 0, 0, 0.5),
+                    0 10px 10px -5px rgba(0, 0, 0, 0.3);
+
+    /* Timing Functions */
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out: cubic-bezier(0.0, 0, 0.2, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  body {
+    @apply bg-black text-white;
+    background: radial-gradient(ellipse at top, rgba(139, 92, 246, 0.1), transparent),
+                radial-gradient(ellipse at bottom, rgba(249, 115, 22, 0.1), transparent),
+                #000;
+    font-feature-settings: 'kern' 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ============================================
+   ANIMATION KEYFRAMES
+   ============================================ */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(255, 117, 24, 0.3);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 30px rgba(255, 117, 24, 0.5);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   GRADIENT TEXT ANIMATIONS
+   ============================================ */
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease-in-out infinite;
+}
+
+/* ============================================
+   ENHANCED CARD HOVER EFFECTS
+   ============================================ */
+
+/* File card enhanced hover glow */
+@keyframes card-glow-pulse {
+  0%, 100% {
+    box-shadow: 0 8px 32px rgba(255, 117, 24, 0.3),
+                0 0 60px rgba(255, 117, 24, 0.2);
+  }
+  50% {
+    box-shadow: 0 8px 32px rgba(255, 117, 24, 0.5),
+                0 0 80px rgba(255, 117, 24, 0.3);
+  }
+}
+
+.group:hover {
+  animation: card-glow-pulse 2s ease-in-out infinite;
+}
+
+/* Enhanced card text brightness on hover */
+.group:hover h3 {
+  text-shadow: 0 0 20px rgba(255, 117, 24, 0.5);
+}
+
+/* Card tilt effect variables */
+.group {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+/* ============================================
+   ANIMATED EMOJI ICONS
+   ============================================ */
+
+/* Floating ghost animation */
+@keyframes float-ghost {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+}
+
+.animate-float-ghost {
+  display: inline-block;
+  animation: float-ghost 3s ease-in-out infinite;
+}
+
+/* Pulsing crystal ball */
+@keyframes pulse-crystal {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
+  }
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 16px rgba(139, 92, 246, 0.8));
+  }
+}
+
+.animate-pulse-crystal {
+  display: inline-block;
+  animation: pulse-crystal 2s ease-in-out infinite;
+}
+
+/* Rotating hourglass (loading) */
+@keyframes flip-hourglass {
+  0% {
+    transform: rotate(0deg);
+  }
+  50%, 100% {
+    transform: rotate(180deg);
+  }
+}
+
+.animate-flip-hourglass {
+  display: inline-block;
+  animation: flip-hourglass 2s ease-in-out infinite;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Line clamp utility */
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Spooky glow effect */
+.glow-orange {
+  box-shadow: var(--shadow-orange-glow);
+}
+
+.glow-purple {
+  box-shadow: var(--shadow-purple-glow);
+}
+
+/* Animated float */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(42, 42, 42, 1) 0%,
+    rgba(58, 58, 58, 1) 50%,
+    rgba(42, 42, 42, 1) 100%
+  );
+  background-size: 2000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.3s var(--ease-out);
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s var(--ease-out);
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.3s var(--ease-out);
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.3s var(--ease-out);
+}
+
+/* ============================================
+   FOCUS STYLES
+   ============================================ */
+*:focus-visible {
+  outline: 2px solid var(--pumpkin-orange);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--pumpkin-orange);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--graveyard-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ghost-gray);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pumpkin-orange);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ghost-gray) var(--graveyard-black);
+}
+
+/* ============================================
+   REDUCED MOTION SUPPORT
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .no-print {
+    display: none;
+  }
+}
