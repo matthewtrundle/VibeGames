@@ -7,30 +7,53 @@
  * For client-side operations, create a separate client with the anon key.
  */
 
-import { createClient } from '@supabase/supabase-js'
-
-// Validate environment variables
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-
-if (!supabaseUrl) {
-  throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL environment variable')
-}
-
-if (!supabaseServiceKey) {
-  throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable')
-}
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
 /**
- * Server-side Supabase client with service role permissions
+ * Lazy-initialized Supabase client
+ * Only created at runtime when first accessed
+ */
+let _supabaseAdmin: SupabaseClient | null = null
+
+/**
+ * Get or create the Supabase admin client
  *
  * ⚠️ WARNING: This client bypasses Row Level Security!
  * Only use for server-side operations like RAG search, indexing, etc.
  */
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false
+function getSupabaseAdmin(): SupabaseClient {
+  if (_supabaseAdmin) {
+    return _supabaseAdmin
+  }
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+  if (!supabaseUrl) {
+    throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL environment variable')
+  }
+
+  if (!supabaseServiceKey) {
+    throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable')
+  }
+
+  _supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  })
+
+  return _supabaseAdmin
+}
+
+/**
+ * Server-side Supabase client with service role permissions
+ * Lazy-loaded to avoid build-time errors
+ */
+export const supabaseAdmin = new Proxy({} as SupabaseClient, {
+  get(_target, prop) {
+    return getSupabaseAdmin()[prop as keyof SupabaseClient]
   }
 })
 
