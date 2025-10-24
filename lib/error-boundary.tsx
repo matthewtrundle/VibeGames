@@ -224,7 +224,7 @@ export function logErrorToService(error: Error, errorInfo?: React.ErrorInfo): vo
   const errorData: ErrorLogData = {
     message: error.message,
     stack: error.stack,
-    componentStack: errorInfo?.componentStack,
+    componentStack: errorInfo?.componentStack ?? undefined,
     timestamp: new Date().toISOString(),
     userAgent: navigator.userAgent,
     url: window.location.href,
