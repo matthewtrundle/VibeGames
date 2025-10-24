@@ -29,7 +29,7 @@ function getMarkdownFiles(): MarkdownFile[] {
 
     const files: MarkdownFile[] = []
 
-    function scanDir(dir: string, baseDir: string = '') {
+    const scanDir = (dir: string, baseDir: string = ''): void => {
       try {
         const entries = fs.readdirSync(dir, { withFileTypes: true })
 
