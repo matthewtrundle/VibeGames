@@ -14,6 +14,7 @@ import {
   getUserPrompt,
   truncateContext
 } from '@/lib/openrouter-client';
+import { supabaseAdmin } from '@/lib/supabase-client';
 
 /**
  * Validate chat request
@@ -278,8 +279,11 @@ export async function POST(req: NextRequest) {
       console.log(`👻 [RAG] Using semantic search for context`);
 
       try {
-        // Call RAG search API
-        const ragResponse = await fetch(`http://localhost:${process.env.PORT || 3000}/api/rag`, {
+        // Import RAG function to avoid HTTP fetch (which doesn't work on Vercel)
+        const { POST: ragPost } = await import('@/app/api/rag/route');
+
+        // Call RAG function directly
+        const ragRequest = new Request('http://localhost/api/rag', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -288,10 +292,7 @@ export async function POST(req: NextRequest) {
           })
         });
 
-        if (!ragResponse.ok) {
-          throw new Error(`RAG search failed: ${ragResponse.statusText}`);
-        }
-
+        const ragResponse = await ragPost(ragRequest as any);
         const ragResult = await ragResponse.json();
 
         if (!ragResult.success || !ragResult.chunks || ragResult.chunks.length === 0) {
