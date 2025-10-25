@@ -17,7 +17,8 @@ export default function ChatInterface() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    // Use 'auto' instead of 'smooth' to prevent shaky scrolling during streaming updates
+    messagesEndRef.current?.scrollIntoView({ behavior: 'auto' })
   }
 
   useEffect(() => {
