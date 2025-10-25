@@ -15,20 +15,19 @@ export default function ChatInterface() {
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const lastScrollTimeRef = useRef<number>(0)
 
-  const scrollToBottom = (force: boolean = false) => {
-    const now = Date.now()
-    // Throttle: only scroll every 150ms during streaming, unless forced
-    if (force || now - lastScrollTimeRef.current > 150) {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'auto' })
-      lastScrollTimeRef.current = now
-    }
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'auto' })
   }
 
   useEffect(() => {
-    // Force scroll when loading state changes (start/end of streaming)
-    scrollToBottom(!isLoading)
+    // Don't scroll during streaming - only when streaming completes
+    if (isLoading) {
+      return // Skip scrolling while AI is typing
+    }
+
+    // Scroll after streaming is complete or for user messages
+    scrollToBottom()
   }, [messages, isLoading])
 
   const handleSubmit = async (e: React.FormEvent) => {
