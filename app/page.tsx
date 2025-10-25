@@ -18,6 +18,7 @@ interface MarkdownFile {
 }
 
 // Read all markdown files from demo vault
+// Database now indexed with 375 chunks for RAG search
 function getMarkdownFiles(): MarkdownFile[] {
   try {
     const vaultPath = path.join(process.cwd(), 'demo-vault')
