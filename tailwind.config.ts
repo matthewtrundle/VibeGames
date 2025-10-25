@@ -193,6 +193,15 @@ const config: Config = {
         slideInRight: 'slideInRight 0.3s ease-out',
         'spin-slow': 'spin-slow 3s linear infinite',
       },
+      animationDelay: {
+        '0': '0s',
+        '100': '100ms',
+        '200': '200ms',
+        '300': '300ms',
+        '500': '500ms',
+        '700': '700ms',
+        '1000': '1000ms',
+      },
       fontFamily: {
         creepster: ['Creepster', 'cursive'],
         sans: ['Inter', 'sans-serif'],

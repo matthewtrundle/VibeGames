@@ -86,19 +86,63 @@ export default function Home() {
 
   return (
     <ErrorBoundary>
-      <div className="max-w-6xl mx-auto space-y-12">
-        {/* Simple Hero */}
-        <div className="text-center space-y-4">
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-orange-400 via-orange-500 to-purple-500 bg-clip-text text-transparent animate-gradient-shift">
-            <span className="animate-float-ghost">👻</span> The Graveyard
-          </h1>
-          <p className="text-xl text-gray-400">
-            {files.length > 0 ? (
-              `${files.length} scattered markdown files reunited`
-            ) : (
-              'The graveyard is empty...'
-            )}
-          </p>
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Hero with Headless Horseman */}
+        <div className="relative overflow-hidden bg-gradient-to-b from-gray-900/50 to-transparent rounded-3xl border border-orange-500/20 p-12 mb-8">
+          {/* Decorative Background Elements */}
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMTA3LDUzLDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30"></div>
+
+          {/* Main Hero Content */}
+          <div className="relative z-10 text-center space-y-8">
+            {/* Headless Horseman Visual */}
+            <div className="relative inline-block">
+              <div className="absolute -top-12 left-1/2 -translate-x-1/2 text-7xl animate-float-ghost filter drop-shadow-[0_0_25px_rgba(255,107,53,0.8)]">
+                🎃
+              </div>
+              <div className="text-9xl filter drop-shadow-[0_0_20px_rgba(168,85,247,0.6)]">
+                🐴
+              </div>
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-4xl opacity-60">
+                👻👻👻
+              </div>
+            </div>
+
+            {/* Title */}
+            <div className="space-y-3">
+              <h1 className="text-7xl md:text-8xl font-bold bg-gradient-to-r from-orange-400 via-orange-500 to-purple-500 bg-clip-text text-transparent animate-gradient-shift leading-tight">
+                The Headless Horseman's Quest
+              </h1>
+              <p className="text-xl text-orange-400/80 font-semibold tracking-wider">
+                ~ Reuniting Scattered Markdown Souls ~
+              </p>
+            </div>
+
+            {/* Subtitle with Stats */}
+            <div className="max-w-3xl mx-auto">
+              <p className="text-2xl text-gray-300 leading-relaxed">
+                {files.length > 0 ? (
+                  <>
+                    <span className="text-purple-400">Lost in the digital graveyard</span>, your notes await the Horseman's guidance.
+                    <span className="block mt-2 text-orange-400 font-bold text-3xl">{files.length} markdown souls discovered</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-gray-400">The graveyard is silent...</span>
+                    <span className="block mt-2 text-orange-400/60">Awaiting lost souls to appear</span>
+                  </>
+                )}
+              </p>
+            </div>
+
+            {/* Decorative Elements */}
+            <div className="flex justify-center gap-8 text-4xl opacity-50">
+              <span className="animate-pulse">🕷️</span>
+              <span className="animate-pulse delay-100">🕸️</span>
+              <span className="animate-pulse delay-200">🦇</span>
+              <span className="animate-pulse delay-100">🕸️</span>
+              <span className="animate-pulse">🕷️</span>
+            </div>
+          </div>
         </div>
 
         {/* Empty State */}
@@ -114,14 +158,16 @@ export default function Home() {
           </div>
         ) : (
           <>
-            {/* Stats Dashboard */}
+            {/* AI Chat Interface - FEATURED */}
+            <div className="lg:sticky lg:top-4 z-10">
+              <ChatInterface />
+            </div>
+
+            {/* Stats Dashboard - Compact */}
             <StatsDashboard files={files} />
 
-            {/* File Grid - Simple and Clean */}
+            {/* File Grid */}
             <FileGrid files={files} />
-
-            {/* AI Chat Interface */}
-            <ChatInterface />
           </>
         )}
       </div>
