@@ -4,6 +4,7 @@ import { supabaseAdmin, type RAGSearchResult } from '@/lib/supabase-client';
 /**
  * RAG Search API - Vercel Compatible
  * Performs semantic search using OpenAI embeddings + Supabase pgvector
+ * Database contains 375 indexed chunks ready for search
  */
 
 interface RAGChunk {
