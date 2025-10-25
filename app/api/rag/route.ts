@@ -67,6 +67,15 @@ async function searchSimilarChunks(
   matchCount: number = 10,
   threshold: number = 0.3
 ): Promise<RAGSearchResult[]> {
+  // Debug logging for Vercel
+  console.log(`👻 [RAG] Calling RPC with:`, {
+    embedding_length: queryEmbedding.length,
+    match_threshold: threshold,
+    match_count: matchCount,
+    has_supabase_url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+    has_service_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+  });
+
   // Call the match_markdown_chunks function via Supabase RPC
   const { data, error } = await supabaseAdmin.rpc('match_markdown_chunks', {
     query_embedding: queryEmbedding,
@@ -75,13 +84,21 @@ async function searchSimilarChunks(
   });
 
   if (error) {
-    console.error('👻 [RAG] Supabase RPC error:', error);
+    console.error('👻 [RAG] Supabase RPC error:', {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code,
+    });
     throw new Error(`Vector search failed: ${error.message}`);
   }
 
   if (!data) {
+    console.warn('👻 [RAG] RPC returned null/undefined data');
     return [];
   }
+
+  console.log(`👻 [RAG] RPC returned ${data.length} raw results`);
 
   // Transform to RAGSearchResult format
   return data.map((row: any) => ({
