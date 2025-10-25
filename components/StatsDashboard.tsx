@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 interface MarkdownFile {
   filename: string
   relativePath: string
@@ -70,26 +72,42 @@ export default function StatsDashboard({ files }: StatsDashboardProps) {
         </div>
       </div>
 
-      {/* Folder Breakdown - Full Width */}
-      <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-          <span className="text-2xl">🪦</span> The Graveyard Map
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Object.entries(folderCounts).map(([folder, count]) => (
-            <div key={folder} className="bg-black/30 rounded-lg p-4 border border-orange-500/20 hover:border-orange-500/40 transition-colors">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-gray-300 capitalize font-semibold">{folder.replace('-', ' ')}</span>
-                <span className="text-orange-400 font-bold text-lg">{count}</span>
+      {/* Folder Breakdown - Full Width with Graveyard Map Background */}
+      <div className="relative overflow-hidden border border-gray-800 rounded-xl">
+        {/* AI Generated Graveyard Map Background */}
+        <div className="absolute inset-0 opacity-20">
+          <Image
+            src="/generated/graveyard-map.webp"
+            alt="Graveyard map background"
+            fill
+            className="object-cover"
+          />
+        </div>
+
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/60"></div>
+
+        {/* Content */}
+        <div className="relative z-10 p-6">
+          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <span className="text-2xl">🪦</span> The Graveyard Map
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Object.entries(folderCounts).map(([folder, count]) => (
+              <div key={folder} className="bg-black/50 backdrop-blur-sm rounded-lg p-4 border border-orange-500/20 hover:border-orange-500/40 transition-colors">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-300 capitalize font-semibold">{folder.replace('-', ' ')}</span>
+                  <span className="text-orange-400 font-bold text-lg">{count}</span>
+                </div>
+                <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-orange-500 to-purple-500 rounded-full transition-all duration-500"
+                    style={{ width: `${(count / totalFiles) * 100}%` }}
+                  />
+                </div>
               </div>
-              <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-orange-500 to-purple-500 rounded-full transition-all duration-500"
-                  style={{ width: `${(count / totalFiles) * 100}%` }}
-                />
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

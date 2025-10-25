@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
+import Image from 'next/image'
 import ChatInterface from '@/components/ChatInterface'
 import FileGrid from '@/components/FileGrid'
 import StatsDashboard from '@/components/StatsDashboard'
@@ -88,23 +89,33 @@ export default function Home() {
     <ErrorBoundary>
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Hero with Headless Horseman */}
-        <div className="relative overflow-hidden bg-gradient-to-b from-gray-900/50 to-transparent rounded-3xl border border-orange-500/20 p-12 mb-8">
-          {/* Decorative Background Elements */}
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMTA3LDUzLDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30"></div>
+        <div className="relative overflow-hidden rounded-3xl border border-orange-500/20 mb-8">
+          {/* AI Generated Background Image */}
+          <div className="absolute inset-0 opacity-40">
+            <Image
+              src="/generated/hero-background.webp"
+              alt="Headless Horseman in digital graveyard"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+
+          {/* Dark Overlay for Text Readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80"></div>
 
           {/* Main Hero Content */}
-          <div className="relative z-10 text-center space-y-8">
-            {/* Headless Horseman Visual */}
-            <div className="relative inline-block">
-              <div className="absolute -top-12 left-1/2 -translate-x-1/2 text-7xl animate-float-ghost filter drop-shadow-[0_0_25px_rgba(255,107,53,0.8)]">
-                🎃
-              </div>
-              <div className="text-9xl filter drop-shadow-[0_0_20px_rgba(168,85,247,0.6)]">
-                🐴
-              </div>
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-4xl opacity-60">
-                👻👻👻
-              </div>
+          <div className="relative z-10 text-center space-y-8 p-12">
+            {/* AI Generated Logo */}
+            <div className="relative inline-block w-64 h-64 mx-auto">
+              <Image
+                src="/generated/logo-variant.webp"
+                alt="Headless Horseman Logo"
+                width={256}
+                height={256}
+                className="object-contain animate-float filter drop-shadow-[0_0_30px_rgba(255,117,24,0.6)]"
+                priority
+              />
             </div>
 
             {/* Title */}
@@ -159,9 +170,7 @@ export default function Home() {
         ) : (
           <>
             {/* AI Chat Interface - FEATURED */}
-            <div className="lg:sticky lg:top-4 z-10">
-              <ChatInterface />
-            </div>
+            <ChatInterface />
 
             {/* Stats Dashboard - Compact */}
             <StatsDashboard files={files} />

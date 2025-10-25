@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -123,7 +124,16 @@ export default function ChatInterface() {
   return (
     <div className="bg-gradient-to-br from-purple-900/20 to-orange-900/20 border border-orange-500/20 rounded-2xl p-8">
       <div className="text-center space-y-4 mb-6">
-        <div className="text-5xl"><span className="animate-pulse-crystal">🔮</span></div>
+        <div className="relative inline-block w-48 h-48 mx-auto">
+          <Image
+            src="/generated/ai-medium-crystal.webp"
+            alt="AI Spirit Medium Crystal Ball"
+            width={192}
+            height={192}
+            className="object-contain animate-pulse-crystal filter drop-shadow-[0_0_25px_rgba(139,92,246,0.6)]"
+            priority
+          />
+        </div>
         <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-purple-500 to-orange-500 bg-clip-text text-transparent animate-gradient-shift">
           AI Spirit Medium
         </h2>
