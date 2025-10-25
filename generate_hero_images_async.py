@@ -16,8 +16,9 @@ async def main():
     # Configure SDK
     config = Config.from_env('/tmp/CLI-Gemini-image-generator-SDK/.env')
     config.output.base_dir = './public/generated'
-    config.output.width = 1920
-    config.output.height = 1080
+    # DON'T set width/height - let Gemini generate at native resolution to avoid stretching
+    # config.output.width = 1920  # REMOVED - was causing aspect ratio distortion
+    # config.output.height = 1080  # REMOVED - was causing aspect ratio distortion
     config.output.quality = 95
 
     # Define themed images to generate
