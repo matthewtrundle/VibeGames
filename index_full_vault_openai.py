@@ -5,6 +5,7 @@ Scans vault folder, chunks files, generates OpenAI embeddings, inserts to DB
 """
 
 import psycopg2
+import psycopg2.extras
 import os
 import sys
 import requests
@@ -103,13 +104,13 @@ def main():
                 with open(file_path, 'r', encoding='utf-8') as f:
                     content = f.read()
 
-                chunks = chunk_markdown_file(content, rel_path)
+                chunks = chunk_markdown_file(rel_path, content)
                 print(f"  📄 Created {len(chunks)} chunks")
 
                 # Process each chunk
                 for chunk_idx, chunk in enumerate(chunks):
                     # Generate embedding
-                    embedding = generate_embedding(chunk['text'])
+                    embedding = generate_embedding(chunk['chunk_text'])
 
                     # Insert into database
                     cur.execute("""
@@ -118,13 +119,9 @@ def main():
                     """, (
                         rel_path,
                         chunk_idx,
-                        chunk['text'],
+                        chunk['chunk_text'],
                         embedding,
-                        {
-                            'heading': chunk.get('heading'),
-                            'heading_level': chunk.get('heading_level'),
-                            'section_type': chunk.get('section_type', 'content')
-                        }
+                        psycopg2.extras.Json(chunk.get('metadata', {}))
                     ))
 
                     total_chunks += 1
